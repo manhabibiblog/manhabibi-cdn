@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manhabibi CDN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 3 sec fallback redirect -->
+  <meta http-equiv="refresh" content="3; url=https://www.manhabibi.shop">
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#050505,#111827);
+      color:#fff;
+      text-align:center;
+    }
+    .box{
+      width:90%;
+      max-width:420px;
+      padding:30px;
+      border-radius:22px;
+      background:rgba(255,255,255,.08);
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+    }
+    .loader{
+      width:70px;
+      height:70px;
+      border:6px solid rgba(255,255,255,.2);
+      border-top-color:#00ff88;
+      border-radius:50%;
+      margin:0 auto 20px;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    h1{font-size:26px;margin:10px 0}
+    p{opacity:.85}
+    .progress{
+      width:100%;
+      height:10px;
+      background:rgba(255,255,255,.15);
+      border-radius:50px;
+      overflow:hidden;
+      margin:20px 0;
+    }
+    .bar{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg,#00ff88,#00c8ff);
+      animation:load 3s linear forwards;
+    }
+    @keyframes load{to{width:100%}}
+    .status{
+      font-size:14px;
+      margin-top:12px;
+      color:#00ff88;
+    }
+    a{
+      color:#00c8ff;
+      font-weight:bold;
+      text-decoration:none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="loader"></div>
+
+    <h1>Manhabibi CDN Running 🚀</h1>
+    <p>Redirecting to main website in <b id="count">3</b> seconds...</p>
+
+    <div class="progress">
+      <div class="bar"></div>
+    </div>
+
+    <div class="status" id="status">Checking CDN status...</div>
+
+    <p>
+      If not redirected,
+      <a href="https://www.manhabibi.shop">click here</a>
+    </p>
+  </div>
+
+  <script>
+    const mainSite = "https://www.manhabibi.shop";
+    let seconds = 3;
+
+    // Countdown
+    const timer = setInterval(() => {
+      seconds--;
+      document.getElementById("count").innerText = seconds;
+
+      if(seconds <= 0){
+        clearInterval(timer);
+        window.location.replace(mainSite);
+      }
+    }, 1000);
+
+    // CDN Status Checker
+    fetch(window.location.href, { method: "HEAD", cache: "no-store" })
+      .then(() => {
+        document.getElementById("status").innerText = "CDN Status: Online ✅";
+      })
+      .catch(() => {
+        document.getElementById("status").innerText = "CDN Status: Checking failed ⚠️";
+        document.getElementById("status").style.color = "#ffcc00";
+      });
+  </script>
+</body>
+</html>
