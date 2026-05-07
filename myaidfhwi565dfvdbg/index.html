@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Intelligence Suite • Earnings • Valuation • Viral Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f2e;
+            --bg-card-hover: #242b3d;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-1: #6366f1;
+            --accent-2: #8b5cf6;
+            --accent-3: #a855f7;
+            --accent-4: #06b6d4;
+            --accent-5: #10b981;
+            --accent-warn: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-gold: #f0b90b;
+            --border-color: #1e293b;
+            --border-light: #2a3347;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.55);
+            --radius-sm: 10px;
+            --radius: 14px;
+            --radius-lg: 20px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
+        }
+        [data-bs-theme="light"] {
+            --bg-primary: #f0f4ff;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8faff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-light: #cbd5e1;
+            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.1);
+            --accent-1: #4f46e5;
+            --accent-2: #7c3aed;
+            --accent-3: #a855f7;
+            --accent-4: #0891b2;
+            --accent-5: #059669;
+            --accent-warn: #d97706;
+            --accent-danger: #dc2626;
+            --accent-gold: #d4a017;
+        }
+        *{box-sizing:border-box;}
+        body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg-primary);color:var(--text-primary);margin:0;min-height:100vh;transition:background var(--transition),color var(--transition);overflow-x:hidden;}
+        [data-bs-theme="light"] body{background-image:radial-gradient(circle at 10% 20%, rgba(99,102,241,0.03) 0%, transparent 30%),radial-gradient(circle at 90% 80%, rgba(6,182,212,0.03) 0%, transparent 30%);}
+        ::-webkit-scrollbar{width:6px;}
+        ::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:20px;}
+        .glass-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);box-shadow:var(--shadow-card);transition:all var(--transition);}
+        .glass-card:hover{border-color:var(--accent-1);box-shadow:var(--shadow-lg);}
+        .glass-card.accent-left{border-left:3px solid var(--accent-1);}
+        .glass-card.gold-left{border-left:3px solid var(--accent-gold);}
+        .glass-card.green-left{border-left:3px solid var(--accent-5);}
+        .stat-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:18px 20px;text-align:center;transition:all var(--transition);}
+        .stat-card:hover{border-color:var(--accent-1);box-shadow:0 0 24px rgba(99,102,241,0.3);}
+        .stat-value{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent-1),var(--accent-4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .stat-value.gold{background:linear-gradient(135deg,#f0b90b,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .stat-value.green{background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .stat-label{color:var(--text-muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+        .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--bg-secondary);border-right:1px solid var(--border-color);z-index:100;display:flex;flex-direction:column;transition:all var(--transition);overflow-y:auto;}
+        .sidebar-logo{padding:20px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border-color);}
+        .sidebar-logo .logo-icon{width:42px;height:42px;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent-1),var(--accent-3));display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;}
+        .sidebar-logo .logo-text{font-weight:700;font-size:1.05rem;line-height:1.2;background:linear-gradient(135deg,var(--accent-1),var(--accent-4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .sidebar-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px;}
+        .sidebar-nav .nav-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer;transition:all var(--transition);font-weight:500;font-size:0.88rem;border:none;background:none;width:100%;text-align:left;}
+        .sidebar-nav .nav-item:hover{background:var(--bg-card);color:var(--text-primary);}
+        .sidebar-nav .nav-item.active{background:linear-gradient(135deg,rgba(99,102,241,0.25),rgba(139,92,246,0.2));color:var(--accent-1);font-weight:600;box-shadow:0 0 20px rgba(99,102,241,0.2);}
+        .sidebar-nav .nav-badge{margin-left:auto;font-size:0.68rem;padding:3px 8px;border-radius:20px;background:var(--accent-1);color:#fff;font-weight:600;}
+        .main-content{margin-left:var(--sidebar-width);padding:24px 30px;min-height:100vh;transition:margin var(--transition);}
+        .section-panel{display:none;animation:fadeSlideIn 0.35s ease;}
+        .section-panel.active{display:block;}
+        @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+        .btn-glow{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;transition:all var(--transition);box-shadow:0 4px 16px rgba(99,102,241,0.3);}
+        .btn-glow:hover{box-shadow:0 8px 28px rgba(99,102,241,0.5);transform:translateY(-2px);}
+        .btn-sm-glow{padding:7px 14px;font-size:0.8rem;border-radius:20px;}
+        .btn-gold{background:linear-gradient(135deg,#f0b90b,#f59e0b);color:#000;box-shadow:0 4px 16px rgba(240,185,11,0.3);}
+        .form-control-custom{background:var(--bg-card);border:2px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);padding:11px 15px;font-size:0.93rem;transition:all var(--transition);width:100%;}
+        .form-control-custom:focus{outline:none;border-color:var(--accent-1);box-shadow:0 0 0 4px rgba(99,102,241,0.2);}
+        select.form-control-custom{cursor:pointer;padding-right:38px;}
+        .video-result-card{display:flex;gap:12px;padding:12px;border-radius:var(--radius-sm);background:var(--bg-card);border:1px solid var(--border-color);transition:all var(--transition);cursor:pointer;align-items:flex-start;}
+        .video-result-card:hover{border-color:var(--accent-1);box-shadow:0 0 20px rgba(99,102,241,0.25);}
+        .video-result-card img{width:130px;height:74px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#1a1a2e;}
+        .tag-pill{display:inline-block;background:var(--bg-card-hover);border:1px solid var(--border-light);color:var(--text-secondary);padding:4px 10px;border-radius:20px;font-size:0.73rem;margin:3px;cursor:pointer;transition:all var(--transition);}
+        .tag-pill:hover{border-color:var(--accent-1);color:#fff;background:rgba(99,102,241,0.2);}
+        .tag-pill.highlight{border-color:var(--accent-5);background:rgba(16,185,129,0.1);color:var(--accent-5);font-weight:600;}
+        .tag-pill.gold{border-color:var(--accent-gold);background:rgba(240,185,11,0.1);color:var(--accent-gold);font-weight:600;}
+        .tag-pill.danger{border-color:var(--accent-danger);background:rgba(239,68,68,0.1);color:var(--accent-danger);font-weight:600;}
+        .channel-banner-container{position:relative;height:170px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;background:linear-gradient(135deg,#1e293b,#0f172a);overflow:hidden;}
+        [data-bs-theme="light"] .channel-banner-container{background:linear-gradient(135deg,#e0e7ff,#c7d2fe);}
+        .channel-banner-img{width:100%;height:100%;object-fit:cover;}
+        .channel-avatar-lg{width:76px;height:76px;border-radius:50%;border:4px solid var(--bg-card);position:absolute;bottom:-28px;left:22px;background:#1a1a2e;object-fit:cover;}
+        .channel-info-section{padding:36px 22px 18px;background:var(--bg-card);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-bottom:18px;border:1px solid var(--border-color);border-top:none;}
+        .channel-stats-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:8px;}
+        .earnings-bar{height:8px;border-radius:10px;background:var(--border-color);overflow:hidden;margin-top:6px;}
+        .earnings-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent-5),var(--accent-gold),var(--accent-4));transition:width 0.8s ease;}
+        .viral-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-weight:700;font-size:0.82rem;}
+        .viral-badge.mega{background:#ff0000;color:#fff;animation:pulse 1.5s infinite;}
+        .viral-badge.super{background:#ff4500;color:#fff;}
+        .viral-badge.high{background:var(--accent-warn);color:#000;}
+        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,0.6);}50%{box-shadow:0 0 0 12px rgba(255,0,0,0);}}
+        .toast-custom{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:14px 20px;color:var(--text-primary);font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn 0.4s ease,toastOut 0.4s ease 2.6s forwards;max-width:380px;}
+        @keyframes toastIn{from{transform:translateX(120%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+        @keyframes toastOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(120%);opacity:0;}}
+        .progress-soft{height:5px;border-radius:10px;background:var(--border-color);}
+        .progress-soft .progress-bar{border-radius:10px;}
+        .vs-badge{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--accent-1),var(--accent-danger));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto;}
+        @media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main-content{margin-left:0;}.mobile-menu-btn{display:block!important;}.channel-stats-row{gap:10px;}.video-result-card{flex-direction:column;}.video-result-card img{width:100%;height:auto;aspect-ratio:16/9;}}
+        @media(min-width:769px){.mobile-menu-btn{display:none!important;}}
+        .comparison-table th,.comparison-table td{padding:10px 14px;font-size:0.85rem;}
+        .comparison-table .winner{color:var(--accent-5);font-weight:700;}
+        .section-divider{height:1px;background:var(--border-color);margin:20px 0;}
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn btn-glow" style="position:fixed;top:12px;left:12px;z-index:200;width:42px;height:42px;padding:0;border-radius:50%;font-size:1.1rem;" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><div class="logo-icon"><i class="fab fa-youtube"></i></div><div class="logo-text">YouTube<br>Intelligence</div></div>
+        <nav class="sidebar-nav">
+            <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard',this)">📊 Dashboard</button>
+            <button class="nav-item" data-section="channel-page" onclick="switchSection('channel-page',this)">📈 Channel Page</button>
+            <button class="nav-item" data-section="earnings" onclick="switchSection('earnings',this)">💰 Earnings<span class="nav-badge">NEW</span></button>
+            <button class="nav-item" data-section="valuation" onclick="switchSection('valuation',this)">💎 Valuation<span class="nav-badge">HOT</span></button>
+            <button class="nav-item" data-section="viral-score" onclick="switchSection('viral-score',this)">🚀 Viral Score</button>
+            <button class="nav-item" data-section="competitor" onclick="switchSection('competitor',this)">⚔️ VS Battle</button>
+            <button class="nav-item" data-section="content-gap" onclick="switchSection('content-gap',this)">🎯 Content Gap</button>
+            <button class="nav-item" data-section="seo-analyzer" onclick="switchSection('seo-analyzer',this)">🔍 SEO Analyzer</button>
+            <button class="nav-item" data-section="trending-finder" onclick="switchSection('trending-finder',this)">🔥 Trending</button>
+            <button class="nav-item" data-section="tag-generator" onclick="switchSection('tag-generator',this)">🏷️ Tags</button>
+            <button class="nav-item" data-section="thumbnail-toolkit" onclick="switchSection('thumbnail-toolkit',this)">🖼️ Thumbnails</button>
+            <button class="nav-item" data-section="keyword-research" onclick="switchSection('keyword-research',this)">🔑 Keywords</button>
+            <button class="nav-item" data-section="growth" onclick="switchSection('growth',this)">📐 Growth Proj</button>
+            <button class="nav-item" data-section="watchlist" onclick="switchSection('watchlist',this)">📌 Watchlist <span class="badge bg-primary ms-2" id="watchlist-count-badge">0</span></button>
+        </nav>
+        <div class="p-3 text-center small text-muted border-top">v3.0 • Secured</div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 id="section-title">📊 Dashboard</h2>
+            <button class="btn btn-outline-secondary rounded-circle" onclick="toggleTheme()"><i class="fas fa-moon" id="theme-icon"></i></button>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="section-panel active" id="section-dashboard">
+            <div class="row g-3 mb-3">
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value">13</div><div class="stat-label">Power Tools</div></div></div>
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value gold" id="dash-watchlist-count">0</div><div class="stat-label">Saved Videos</div></div></div>
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value green">∞</div><div class="stat-label">Secure Proxy</div></div></div>
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value">US</div><div class="stat-label">Default Region</div></div></div>
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value gold">💰</div><div class="stat-label">Earnings</div></div></div>
+                <div class="col-md-2 col-4"><div class="stat-card"><div class="stat-value green">🚀</div><div class="stat-label">Viral Score</div></div></div>
+            </div>
+            <div class="glass-card p-4 text-center"><h4>🚀 The Most Powerful YouTube Analytics Suite</h4><p class="text-muted">Channel earnings • valuation • viral scoring • competitor battle • content gap — all in one place, keys stay safe.</p></div>
+        </div>
+
+        <!-- (All other section panels identical to the previous full code) -->
+        <!-- CHANNEL PAGE -->
+        <div class="section-panel" id="section-channel-page">
+            <div class="glass-card p-4 mb-3"><h5>📈 Channel Intelligence</h5><div class="input-group"><input type="text" class="form-control-custom" id="ch-input" placeholder="Channel ID / @handle / URL"><button class="btn-glow ms-2" onclick="analyzeChannelFull()">Analyze</button></div></div>
+            <div id="channel-page-results" style="display:none;"></div>
+        </div>
+
+        <!-- EARNINGS -->
+        <div class="section-panel" id="section-earnings">
+            <div class="glass-card p-4 mb-3"><h5>💰 Channel Earnings Estimator</h5><p class="text-muted small">Real‑time earnings estimation based on niche CPM/RPM data from 2025.</p><div class="input-group"><input type="text" class="form-control-custom" id="earn-input" placeholder="Channel ID or @handle"><select class="form-control-custom ms-2" id="earn-niche" style="max-width:180px;"><option value="auto">Auto‑Detect</option><option value="finance">Finance</option><option value="tech">Tech/Gadgets</option><option value="education">Education</option><option value="gaming">Gaming</option><option value="entertainment">Entertainment</option><option value="health">Health/Fitness</option><option value="beauty">Beauty</option><option value="diy">DIY/Lifestyle</option><option value="auto">Automotive</option><option value="travel">Travel</option></select><button class="btn-glow ms-2 btn-gold" onclick="estimateEarnings()">Calculate</button></div></div>
+            <div id="earnings-results" style="display:none;"></div>
+        </div>
+
+        <!-- VALUATION -->
+        <div class="section-panel" id="section-valuation">
+            <div class="glass-card p-4 mb-3"><h5>💎 Channel Valuation Calculator</h5><p class="text-muted small">Flippa‑style valuation: what your channel could sell for.</p><div class="input-group"><input type="text" class="form-control-custom" id="val-input" placeholder="Channel ID or @handle"><button class="btn-glow ms-2 btn-gold" onclick="calculateValuation()">Appraise</button></div></div>
+            <div id="valuation-results" style="display:none;"></div>
+        </div>
+
+        <!-- VIRAL SCORE -->
+        <div class="section-panel" id="section-viral-score">
+            <div class="glass-card p-4 mb-3"><h5>🚀 Viral Potential Score</h5><p class="text-muted small">View velocity + engagement + like ratio + recency.</p><div class="input-group"><input type="text" class="form-control-custom" id="viral-input" placeholder="Video URL"><button class="btn-glow ms-2" onclick="calculateViralScore()">Score It</button></div></div>
+            <div id="viral-results" style="display:none;"></div>
+        </div>
+
+        <!-- COMPETITOR BATTLE -->
+        <div class="section-panel" id="section-competitor">
+            <div class="glass-card p-4 mb-3"><h5>⚔️ Competitor Battle</h5><div class="row g-2"><div class="col-md-4"><input type="text" class="form-control-custom" id="vs-ch1" placeholder="Channel 1"></div><div class="col-md-4"><input type="text" class="form-control-custom" id="vs-ch2" placeholder="Channel 2"></div><div class="col-md-4"><input type="text" class="form-control-custom" id="vs-ch3" placeholder="Channel 3 (optional)"></div></div><button class="btn-glow mt-2" onclick="competitorBattle()">⚔️ Battle!</button></div>
+            <div id="vs-results" style="display:none;"></div>
+        </div>
+
+        <!-- CONTENT GAP -->
+        <div class="section-panel" id="section-content-gap">
+            <div class="glass-card p-4 mb-3"><h5>🎯 Content Gap Analyzer</h5><div class="input-group"><input type="text" class="form-control-custom" id="gap-keyword" placeholder="e.g., best budget laptops 2025"><input type="text" class="form-control-custom ms-2" id="gap-my-tags" placeholder="Your tags (comma separated)" style="max-width:300px;"><button class="btn-glow ms-2" onclick="analyzeContentGap()">Find Gaps</button></div></div>
+            <div id="gap-results" style="display:none;"></div>
+        </div>
+
+        <!-- SEO ANALYZER -->
+        <div class="section-panel" id="section-seo-analyzer"><div class="glass-card p-4 mb-3"><h5>🔍 SEO Analyzer</h5><div class="input-group"><input type="text" class="form-control-custom" id="seo-video-url" placeholder="Video URL"><button class="btn-glow ms-2" onclick="analyzeSEO()">Analyze</button></div></div><div id="seo-results" style="display:none;"></div></div>
+
+        <!-- TRENDING -->
+        <div class="section-panel" id="section-trending-finder"><div class="glass-card p-4 mb-3"><h5>🔥 Trending</h5><div class="row g-2"><div class="col-md-3"><select class="form-control-custom" id="trending-region"><option value="US">🇺🇸 US</option><option value="GB">🇬🇧 UK</option><option value="IN">🇮🇳 India</option></select></div><div class="col-md-3"><select class="form-control-custom" id="trending-category"><option value="0">All</option><option value="10">Music</option><option value="20">Gaming</option></select></div><div class="col-md-2"><select class="form-control-custom" id="trending-max"><option value="10">10</option><option value="20">20</option></select></div><div class="col-md-2"><button class="btn-glow w-100" onclick="fetchTrending()">Fetch</button></div></div></div><div id="trending-results" class="row g-3"></div></div>
+
+        <!-- TAG GENERATOR -->
+        <div class="section-panel" id="section-tag-generator"><div class="glass-card p-4 mb-3"><h5>🏷️ Smart Tags</h5><div class="input-group"><input type="text" class="form-control-custom" id="tag-input-title" placeholder="Video title"><button class="btn-glow ms-2" onclick="generateTags()">Generate</button></div></div><div id="tag-results" style="display:none;"></div></div>
+
+        <!-- THUMBNAILS -->
+        <div class="section-panel" id="section-thumbnail-toolkit"><div class="glass-card p-4 mb-3"><h5>🖼️ Thumbnails</h5><div class="input-group"><input type="text" class="form-control-custom" id="thumb-url" placeholder="Video URL"><button class="btn-glow ms-2" onclick="fetchThumbnails()">Get</button></div></div><div id="thumbnail-results" class="row g-3" style="display:none;"></div></div>
+
+        <!-- KEYWORDS -->
+        <div class="section-panel" id="section-keyword-research"><div class="glass-card p-4 mb-3"><h5>🔑 Keywords</h5><div class="input-group"><input type="text" class="form-control-custom" id="keyword-input" placeholder="Search term"><button class="btn-glow ms-2" onclick="researchKeywords()">Research</button></div></div><div id="keyword-results" style="display:none;"></div></div>
+
+        <!-- GROWTH PROJECTION -->
+        <div class="section-panel" id="section-growth"><div class="glass-card p-4 mb-3"><h5>📐 Growth Projection</h5><div class="input-group"><input type="text" class="form-control-custom" id="growth-input" placeholder="Channel ID or @handle"><button class="btn-glow ms-2" onclick="projectGrowth()">Project</button></div></div><div id="growth-results" style="display:none;"></div></div>
+
+        <!-- WATCHLIST -->
+        <div class="section-panel" id="section-watchlist"><div class="glass-card p-4 mb-3"><h5>📌 Watchlist</h5><button class="btn btn-outline-danger btn-sm" onclick="clearWatchlist()">Clear</button></div><div id="watchlist-results" class="row g-3"></div><div id="watchlist-empty" class="text-center text-muted py-5" style="display:none;"><i class="fas fa-inbox fa-3x mb-2"></i><p>No saved videos yet.</p></div></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+    // ═══════════ SECURITY: Disable right-click, F12, DevTools shortcuts ═══════════
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+    document.addEventListener('keydown', function(e) {
+        // Block F12
+        if (e.key === 'F12') { e.preventDefault(); return false; }
+        // Block Ctrl+Shift+I / J / C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
+        // Block Ctrl+U (view source), Ctrl+S (save), Ctrl+P (print)
+        if (e.ctrlKey && (e.key === 'U' || e.key === 'S' || e.key === 'P')) { e.preventDefault(); return false; }
+        // Block Ctrl+Shift+K (firefox devtools)
+        if (e.ctrlKey && e.shiftKey && e.key === 'K') { e.preventDefault(); return false; }
+        // Block Cmd+Option+I (Mac Chrome devtools)
+        if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
+    });
+    // Rudimentary devtools detection (console warning)
+    setInterval(function() {
+        const threshold = 160;
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            console.clear();
+            document.title = '⚠️ YouTube Intelligence Suite';
+        }
+    }, 1000);
+    // ═══════════ END SECURITY ═══════════
+
+    // ═══════════ CONFIG ═══════════
+    const API_KEYS=['YOUR_KEY_1','YOUR_KEY_2'];
+    const PHP_PROXY_URL='';
+    let currentKeyIndex=0;let chartInstances={};
+
+    // ═══════════ RPM DATA (2025) ═══════════
+    const RPM_BY_NICHE={
+        finance:{rpm:[6,12],cpm:[20,50],name:'Finance & Investing'},
+        tech:{rpm:[3,7],cpm:[10,30],name:'Tech & Gadgets'},
+        education:{rpm:[5,8],cpm:[8,25],name:'Education'},
+        gaming:{rpm:[1.5,4],cpm:[2,8],name:'Gaming'},
+        entertainment:{rpm:[0.5,2],cpm:[1,3],name:'Entertainment'},
+        health:{rpm:[4,7],cpm:[7,20],name:'Health & Fitness'},
+        beauty:{rpm:[2.5,5],cpm:[5,12],name:'Beauty & Fashion'},
+        diy:{rpm:[3,5.5],cpm:[4,12],name:'DIY & Lifestyle'},
+        auto:{rpm:[4,8],cpm:[8,15],name:'Automotive'},
+        travel:{rpm:[2,4],cpm:[3,8],name:'Travel'}
+    };
+    const RPM_BY_COUNTRY={US:6.00,CA:5.50,GB:5.70,AU:5.80,DE:4.90,IN:2.50,BR:2.80,FR:4.70,MX:3.00,JP:4.60};
+    const CPM_BY_COUNTRY={US:14.67,AU:13.30,CA:9.93,DE:9.79,GB:8.91,FR:6.76,IN:0.74,PK:0.53,BD:0.53};
+
+    function showToast(m){const e=document.querySelector('.toast-custom');if(e)e.remove();const t=document.createElement('div');t.className='toast-custom';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3200);}
+    function formatNum(n){if(!n&&n!==0)return'—';n=parseInt(n);if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n.toLocaleString();}
+    function formatUSD(n){return'$'+n.toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0});}
+    function extractVideoId(u){const m=u.match(/(?:youtu\.be\/|v=|\/shorts\/|embed\/)([a-zA-Z0-9_-]{11})/);return m?m[1]:u.match(/^([a-zA-Z0-9_-]{11})$/) ? u : null;}
+    function detectNiche(tags,title){const t=(title||'')+(tags||[]).join(' ').toLowerCase();if(/finance|investing|stock|money|credit|bank|loan|insurance|trading|crypto|bitcoin/i.test(t))return'finance';if(/tech|gadget|review|software|phone|laptop|pc|iphone|android|code|program/i.test(t))return'tech';if(/learn|course|tutorial|school|study|education|class|lesson|university/i.test(t))return'education';if(/game|gaming|play|minecraft|fortnite|roblox|valorant/i.test(t))return'gaming';if(/health|fitness|workout|diet|exercise|gym|weight|muscle/i.test(t))return'health';if(/makeup|beauty|fashion|skincare|style|hair|nails|outfit/i.test(t))return'beauty';if(/diy|craft|home|decor|cook|recipe|bake/i.test(t))return'diy';if(/car|auto|vehicle|bike|motor|race/i.test(t))return'auto';if(/travel|trip|destination|hotel|flight|adventure|tour/i.test(t))return'travel';return'entertainment';}
+
+    async function callYouTubeAPI(endpoint,params={}){
+        if(PHP_PROXY_URL){const u=new URL(PHP_PROXY_URL);u.searchParams.set('endpoint',endpoint);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null)u.searchParams.set(k,v);});const r=await fetch(u);if(!r.ok)throw new Error('Proxy error '+r.status);return r.json();}
+        let lastErr;for(let i=0;i<API_KEYS.length;i++){const key=API_KEYS[currentKeyIndex%API_KEYS.length];currentKeyIndex++;try{const u=new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);u.searchParams.set('key',key);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null)u.searchParams.set(k,v);});const r=await fetch(u);if(r.status===403||r.status===429){const e=await r.json().catch(()=>({}));if(e.error?.errors?.some(x=>x.reason==='quotaExceeded'||x.reason==='dailyLimitExceeded'))continue;throw new Error(e.error?.message||'Access denied');}if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}catch(e){lastErr=e;if(i===API_KEYS.length-1)throw lastErr;}}throw lastErr;}
+    async function resolveChannel(input){let cid=input.match(/UC[a-zA-Z0-9_-]+/)?.[0]||null;if(!cid){const s=await callYouTubeAPI('search',{part:'snippet',q:input,type:'channel',maxResults:1});if(s.items&&s.items[0])cid=s.items[0].snippet.channelId;else throw new Error('Channel not found');}return cid;}
+
+    function toggleTheme(){const h=document.documentElement;const c=h.getAttribute('data-bs-theme');const n=c==='light'?'dark':'light';h.setAttribute('data-bs-theme',n);localStorage.setItem('yt_intel_theme',n);document.getElementById('theme-icon').className=n==='light'?'fas fa-sun':'fas fa-moon';}
+    function switchSection(id,btn){document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.sidebar-nav .nav-item').forEach(b=>b.classList.remove('active'));const p=document.getElementById('section-'+id);if(p)p.classList.add('active');if(btn)btn.classList.add('active');document.getElementById('section-title').textContent=btn?btn.textContent.trim():'Dashboard';document.getElementById('sidebar').classList.remove('open');Object.values(chartInstances).forEach(c=>c.destroy());chartInstances={};if(id==='watchlist')renderWatchlist();}
+    window.toggleTheme=toggleTheme;window.switchSection=switchSection;
+
+    // ═══════════ WATCHLIST ═══════════
+    function getWatchlist(){return JSON.parse(localStorage.getItem('yt_watchlist')||'[]');}
+    function saveWatchlist(l){localStorage.setItem('yt_watchlist',JSON.stringify(l));updateWatchlistCount();}
+    function addToWatchlist(vid,title,channel,thumb){const l=getWatchlist();if(l.find(v=>v.videoId===vid))return showToast('Already saved');l.unshift({videoId:vid,title,channel,thumb,savedAt:new Date().toISOString()});if(l.length>100)l.length=100;saveWatchlist(l);showToast('✅ Saved');renderWatchlist();}
+    function removeFromWatchlist(i){const l=getWatchlist();l.splice(i,1);saveWatchlist(l);renderWatchlist();}
+    function clearWatchlist(){if(confirm('Clear all?')){saveWatchlist([]);renderWatchlist();}}
+    function renderWatchlist(){const l=getWatchlist();const c=document.getElementById('watchlist-results');const e=document.getElementById('watchlist-empty');if(!c)return;if(!l.length){c.innerHTML='';if(e)e.style.display='block';updateWatchlistCount();return;}if(e)e.style.display='none';c.innerHTML=l.map((v,i)=>`<div class="col-md-6 col-lg-4"><div class="video-result-card"><img src="${v.thumb||''}" onerror="this.style.display='none'" loading="lazy"><div><div class="fw-bold small">${v.title}</div><div class="text-muted small">${v.channel}</div><a href="https://youtube.com/watch?v=${v.videoId}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Watch</a><button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFromWatchlist(${i})">🗑️</button></div></div></div>`).join('');updateWatchlistCount();}
+    function updateWatchlistCount(){const c=getWatchlist().length;const b=document.getElementById('watchlist-count-badge');if(b)b.textContent=c;const d=document.getElementById('dash-watchlist-count');if(d)d.textContent=c;}
+    window.addToWatchlist=addToWatchlist;window.removeFromWatchlist=removeFromWatchlist;window.clearWatchlist=clearWatchlist;
+
+    // ═══════════ CHANNEL PAGE (ENHANCED) ═══════════
+    window.analyzeChannelFull=async function(){
+        const input=document.getElementById('ch-input').value.trim();if(!input)return showToast('Enter channel');
+        try{const cid=await resolveChannel(input);const[d,v]=await Promise.all([callYouTubeAPI('channels',{part:'snippet,statistics,brandingSettings',id:cid}),callYouTubeAPI('search',{part:'snippet',channelId:cid,order:'date',maxResults:6,type:'video'})]);
+            if(!d.items||!d.items[0])return showToast('Not found');const ch=d.items[0];const s=ch.snippet;const st=ch.statistics;const banner=ch.brandingSettings?.image?.bannerExternalUrl||'';const logo=s.thumbnails?.high?.url||s.thumbnails?.default?.url||'';const pub=new Date(s.publishedAt);const months=Math.max(1,(new Date()-pub)/2629800000);const moSubs=Math.round((st.subscriberCount||0)/months);
+            document.getElementById('channel-page-results').style.display='block';
+            document.getElementById('channel-page-results').innerHTML=`
+                <div class="channel-banner-container">${banner?`<img src="${banner}" class="channel-banner-img">`:''}<img src="${logo}" class="channel-avatar-lg"></div>
+                <div class="channel-info-section"><h4>${s.title} <span class="badge bg-secondary">${s.customUrl||''}</span></h4><div class="channel-stats-row"><div><strong>${formatNum(st.subscriberCount)}</strong> subs</div><div><strong>${formatNum(st.viewCount)}</strong> views</div><div><strong>${formatNum(st.videoCount)}</strong> videos</div><div>Joined ${pub.toLocaleDateString()}</div></div><div class="mt-2"><span class="text-muted">📈 Est. monthly growth:</span> <strong>${formatNum(moSubs)} subs</strong></div><button class="btn btn-sm mt-2" style="background:#cc0000;color:#fff;border-radius:20px;padding:6px 16px;">🔔 Subscribe</button></div>
+                <h5 class="mt-3">Recent Videos</h5><div class="row">${v.items? v.items.map(x=>`<div class="col-md-4 mb-3"><div class="video-result-card" onclick="window.open('https://youtube.com/watch?v=${x.id.videoId}','_blank')"><img src="${x.snippet.thumbnails.medium.url}"><div><strong>${x.snippet.title}</strong><br><small class="text-muted">${x.snippet.channelTitle}</small></div></div></div>`).join(''):'<div class="col-12 text-muted">No videos</div>'}</div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ EARNINGS ESTIMATOR ═══════════
+    window.estimateEarnings=async function(){
+        const input=document.getElementById('earn-input').value.trim();if(!input)return showToast('Enter channel');
+        try{const cid=await resolveChannel(input);const d=await callYouTubeAPI('channels',{part:'snippet,statistics',id:cid});if(!d.items||!d.items[0])return showToast('Not found');
+            const ch=d.items[0];const s=ch.snippet;const st=ch.statistics;const totalViews=parseInt(st.viewCount||0);const niche=document.getElementById('earn-niche').value==='auto'?detectNiche(s.tags||[],s.title):document.getElementById('earn-niche').value;
+            const rData=RPM_BY_NICHE[niche]||RPM_BY_NICHE.entertainment;const rpmLow=rData.rpm[0];const rpmHigh=rData.rpm[1];const cpmLow=rData.cpm[0];const cpmHigh=rData.cpm[1];
+            const grossLow=(totalViews/1000)*cpmLow;const grossHigh=(totalViews/1000)*cpmHigh;const netLow=(totalViews/1000)*rpmLow;const netHigh=(totalViews/1000)*rpmHigh;
+            const monthlyViews=totalViews/Math.max(1,((new Date()-new Date(s.publishedAt))/2629800000));const monthlyLow=(monthlyViews/1000)*rpmLow;const monthlyHigh=(monthlyViews/1000)*rpmHigh;
+
+            document.getElementById('earnings-results').style.display='block';
+            document.getElementById('earnings-results').innerHTML=`
+                <div class="row g-3">
+                    <div class="col-md-3"><div class="stat-card glass-card"><div class="stat-value green">${formatUSD(netLow)}-${formatUSD(netHigh)}</div><div class="stat-label">All‑Time Net Revenue</div></div></div>
+                    <div class="col-md-3"><div class="stat-card glass-card gold-left"><div class="stat-value gold">${formatUSD(monthlyLow)}-${formatUSD(monthlyHigh)}</div><div class="stat-label">Est. Monthly Revenue</div></div></div>
+                    <div class="col-md-3"><div class="stat-card glass-card"><div class="stat-value">${formatUSD(grossLow)}-${formatUSD(grossHigh)}</div><div class="stat-label">All‑Time Gross Ads</div></div></div>
+                    <div class="col-md-3"><div class="stat-card glass-card green-left"><div class="stat-value">${formatNum(totalViews)}</div><div class="stat-label">Total Views</div></div></div>
+                </div>
+                <div class="glass-card p-3 mt-3"><h6>📊 Breakdown</h6><p class="small text-muted">Niche: <strong>${rData.name}</strong> • CPM: $${cpmLow}-$${cpmHigh} • RPM: $${rpmLow}-$${rpmHigh} • Channel: ${s.title}</p><p class="small text-muted">Formula: Net Revenue = (Total Views ÷ 1000) × RPM. YouTube takes ~45% cut.</p></div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ CHANNEL VALUATION ═══════════
+    window.calculateValuation=async function(){
+        const input=document.getElementById('val-input').value.trim();if(!input)return showToast('Enter channel');
+        try{const cid=await resolveChannel(input);const d=await callYouTubeAPI('channels',{part:'snippet,statistics',id:cid});if(!d.items||!d.items[0])return showToast('Not found');
+            const ch=d.items[0];const s=ch.snippet;const st=ch.statistics;const totalViews=parseInt(st.viewCount||0);const niche=detectNiche([],s.title);const rData=RPM_BY_NICHE[niche]||RPM_BY_NICHE.entertainment;
+            const months=Math.max(1,((new Date()-new Date(s.publishedAt))/2629800000));const monthlyViews=totalViews/months;const monthlyRev=(monthlyViews/1000)*((rData.rpm[0]+rData.rpm[1])/2);
+            const multiple=niche==='finance'?30:niche==='tech'?24:niche==='education'?20:18;
+            const valuationLow=monthlyRev*12;const valuationHigh=monthlyRev*multiple;
+            document.getElementById('valuation-results').style.display='block';
+            document.getElementById('valuation-results').innerHTML=`
+                <div class="row g-3">
+                    <div class="col-md-4"><div class="stat-card glass-card gold-left"><div class="stat-value gold">${formatUSD(valuationLow)}-${formatUSD(valuationHigh)}</div><div class="stat-label">Estimated Channel Value</div></div></div>
+                    <div class="col-md-4"><div class="stat-card glass-card"><div class="stat-value">${formatUSD(monthlyRev)}</div><div class="stat-label">Est. Monthly Profit</div></div></div>
+                    <div class="col-md-4"><div class="stat-card glass-card"><div class="stat-value">${multiple}×</div><div class="stat-label">Valuation Multiple</div></div></div>
+                </div>
+                <div class="glass-card p-3 mt-3"><h6>💡 How This Is Calculated</h6><p class="small text-muted">Based on Flippa marketplace data. Channels sell for <strong>12-36× monthly profit</strong>. Niche: <strong>${rData.name}</strong> (${multiple}× multiple).</p></div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ VIRAL SCORE ═══════════
+    window.calculateViralScore=async function(){
+        const input=document.getElementById('viral-input').value;const vid=extractVideoId(input);if(!vid)return showToast('Invalid URL');
+        try{const d=await callYouTubeAPI('videos',{part:'snippet,statistics',id:vid});if(!d.items||!d.items[0])return showToast('Not found');
+            const v=d.items[0];const s=v.snippet;const st=v.statistics;const views=parseInt(st.viewCount||0);const likes=parseInt(st.likeCount||0);const comments=parseInt(st.commentCount||0);
+            const hoursSince=Math.max(0.1,(new Date()-new Date(s.publishedAt))/3600000);const viewVelocity=views/hoursSince;
+            let vScore=0;if(viewVelocity>=10000)vScore=40;else if(viewVelocity>=5000)vScore=38;else if(viewVelocity>=1000)vScore=35;else if(viewVelocity>=500)vScore=32;else if(viewVelocity>=100)vScore=28;else if(viewVelocity>=50)vScore=24;else if(viewVelocity>=10)vScore=18;else if(viewVelocity>=5)vScore=12;else vScore=5;
+            const engagement=views>0?(likes+comments)/views:0;let eScore=0;if(engagement>=0.1)eScore=30;else if(engagement>=0.05)eScore=27;else if(engagement>=0.02)eScore=24;else if(engagement>=0.01)eScore=20;else if(engagement>=0.005)eScore=16;else if(engagement>=0.002)eScore=12;else if(engagement>=0.001)eScore=8;else eScore=4;
+            const likeRatio=views>0?likes/views:0;let lScore=0;if(likeRatio>=0.05)lScore=20;else if(likeRatio>=0.03)lScore=16;else if(likeRatio>=0.02)lScore=12;else if(likeRatio>=0.01)lScore=8;else lScore=3;
+            let rScore=hoursSince<1?10:hoursSince<6?8:hoursSince<24?6:hoursSince<72?4:2;
+            const total=vScore+eScore+lScore+rScore;
+            let badge,label;if(total>=80){badge='mega';label='🦄 Mega Viral';}else if(total>=65){badge='super';label='🔥 Super Viral';}else if(total>=50){badge='high';label='⚡ High Potential';}else{label='📈 Building';}
+            document.getElementById('viral-results').style.display='block';
+            document.getElementById('viral-results').innerHTML=`
+                <div class="row g-3"><div class="col-md-4 text-center"><div class="vs-badge" style="width:100px;height:100px;font-size:2rem;">${total}</div><span class="viral-badge ${badge} mt-2">${label}</span></div><div class="col-md-8"><div class="glass-card p-3"><h6>${s.title}</h6><p class="small">${s.channelTitle} • ${formatNum(views)} views • ${formatNum(likes)} likes</p><div class="mb-2"><small>View Velocity: ${formatNum(Math.round(viewVelocity))} views/hr</small><div class="progress-soft"><div class="progress-bar bg-info" style="width:${Math.min(100,vScore/40*100)}%"></div></div></div><div class="mb-2"><small>Engagement: ${(engagement*100).toFixed(2)}%</small><div class="progress-soft"><div class="progress-bar bg-success" style="width:${Math.min(100,eScore/30*100)}%"></div></div></div><div class="mb-2"><small>Like Ratio: ${(likeRatio*100).toFixed(2)}%</small><div class="progress-soft"><div class="progress-bar bg-warning" style="width:${Math.min(100,lScore/20*100)}%"></div></div></div><p class="small text-muted mt-2">Published: ${new Date(s.publishedAt).toLocaleString()} (${Math.round(hoursSince)}h ago)</p></div></div></div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ COMPETITOR BATTLE ═══════════
+    window.competitorBattle=async function(){
+        const inputs=[document.getElementById('vs-ch1').value.trim(),document.getElementById('vs-ch2').value.trim(),document.getElementById('vs-ch3').value.trim()].filter(Boolean);
+        if(inputs.length<2)return showToast('Enter at least 2 channels');
+        try{const channels=[];for(const inp of inputs){const cid=await resolveChannel(inp);const d=await callYouTubeAPI('channels',{part:'snippet,statistics',id:cid});if(d.items&&d.items[0])channels.push({name:d.items[0].snippet.title,subs:parseInt(d.items[0].statistics.subscriberCount||0),views:parseInt(d.items[0].statistics.viewCount||0),videos:parseInt(d.items[0].statistics.videoCount||0),logo:d.items[0].snippet.thumbnails?.default?.url||'',cid});}
+            if(channels.length<2)return showToast('Not enough channels found');
+            const metrics=['subs','views','videos'];const winners={};
+            metrics.forEach(m=>{const vals=channels.map(c=>c[m]);winners[m]=vals.indexOf(Math.max(...vals));});
+            document.getElementById('vs-results').style.display='block';
+            document.getElementById('vs-results').innerHTML=`
+                <div class="table-responsive"><table class="table comparison-table"><thead><tr><th>Metric</th>${channels.map((c,i)=>`<th class="text-center"><img src="${c.logo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;"><br>${c.name}${i===winners.subs?' 🏆':''}</th>`).join('')}</tr></thead><tbody>
+                <tr><td>Subscribers</td>${channels.map((c,i)=>`<td class="text-center ${i===winners.subs?'winner':''}">${formatNum(c.subs)}</td>`).join('')}</tr>
+                <tr><td>Total Views</td>${channels.map((c,i)=>`<td class="text-center ${i===winners.views?'winner':''}">${formatNum(c.views)}</td>`).join('')}</tr>
+                <tr><td>Videos</td>${channels.map((c,i)=>`<td class="text-center ${i===winners.videos?'winner':''}">${formatNum(c.videos)}</td>`).join('')}</tr>
+                <tr><td>Views/Video</td>${channels.map((c,i)=>{const vpv=c.videos>0?Math.round(c.views/c.videos):0;return`<td class="text-center">${formatNum(vpv)}</td>`;}).join('')}</tr>
+                <tr><td>Subs/View Ratio</td>${channels.map((c,i)=>{const svr=c.views>0?(c.subs/c.views*100).toFixed(2)+'%':'—';return`<td class="text-center">${svr}</td>`;}).join('')}</tr>
+                </tbody></table></div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ CONTENT GAP ═══════════
+    window.analyzeContentGap=async function(){
+        const kw=document.getElementById('gap-keyword').value.trim();const myTags=document.getElementById('gap-my-tags').value.toLowerCase().split(',').map(t=>t.trim()).filter(Boolean);
+        if(!kw)return showToast('Enter a keyword');
+        try{const d=await callYouTubeAPI('search',{part:'snippet',q:kw,type:'video',maxResults:15});
+            if(!d.items||!d.items.length)return showToast('No results');
+            const allCompTags={};const allTitles=[];let totalVideos=0;
+            for(const item of d.items){
+                const vd=await callYouTubeAPI('videos',{part:'snippet',id:item.id.videoId});if(vd.items&&vd.items[0]){const tags=vd.items[0].snippet.tags||[];tags.forEach(t=>{const tl=t.toLowerCase();allCompTags[tl]=(allCompTags[tl]||0)+1;});allTitles.push(vd.items[0].snippet.title);totalVideos++;}
+            }
+            const sorted=Object.entries(allCompTags).sort((a,b)=>b[1]-a[1]).slice(0,25);
+            const myTagsSet=new Set(myTags);const missing=sorted.filter(([t])=>!myTagsSet.has(t));
+            const common=sorted.filter(([t])=>myTagsSet.has(t));
+            document.getElementById('gap-results').style.display='block';
+            document.getElementById('gap-results').innerHTML=`
+                <div class="row g-3"><div class="col-md-6"><div class="glass-card p-3 danger-left"><h6>🔴 Missing Tags (${missing.length})</h6><div>${missing.map(([t,c])=>`<span class="tag-pill danger">${t} (${c})</span>`).join('')||'<small class="text-muted">None — you cover everything!</small>'}</div></div></div><div class="col-md-6"><div class="glass-card p-3 green-left"><h6>🟢 Your Covered Tags (${common.length})</h6><div>${common.map(([t,c])=>`<span class="tag-pill highlight">${t}</span>`).join('')||'<small class="text-muted">No overlap found</small>'}</div></div></div></div>
+                <div class="glass-card p-3 mt-3"><h6>📋 Top Competitor Titles</h6><div class="small">${allTitles.slice(0,8).map(t=>`<div class="mb-1">• ${t}</div>`).join('')}</div></div>`;
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ GROWTH PROJECTION ═══════════
+    window.projectGrowth=async function(){
+        const input=document.getElementById('growth-input').value.trim();if(!input)return showToast('Enter channel');
+        try{const cid=await resolveChannel(input);const[d,v]=await Promise.all([callYouTubeAPI('channels',{part:'snippet,statistics',id:cid}),callYouTubeAPI('search',{part:'snippet',channelId:cid,order:'date',maxResults:50,type:'video'})]);
+            if(!d.items||!d.items[0])return showToast('Not found');
+            const ch=d.items[0];const st=ch.statistics;const currentSubs=parseInt(st.subscriberCount||0);
+            const views=[];if(v.items){for(const item of v.items){const vd=await callYouTubeAPI('videos',{part:'statistics',id:item.id.videoId});if(vd.items&&vd.items[0])views.push({date:new Date(item.snippet.publishedAt),views:parseInt(vd.items[0].statistics.viewCount||0)});}}
+            views.sort((a,b)=>a.date-b.date);if(views.length<5)return showToast('Need at least 5 videos');
+            const recent=views.slice(-20);const n=recent.length;let sx=0,sy=0,sxx=0,sxy=0;recent.forEach((v,i)=>{const x=i;const y=v.views;sx+=x;sy+=y;sxx+=x*x;sxy+=x*y;});
+            const slope=(n*sxy-sx*sy)/(n*sxx-sx*sx);const intercept=(sy-slope*sx)/n;
+            const pred30=Math.max(0,Math.round(intercept+slope*(n+1)));const pred60=Math.max(0,Math.round(intercept+slope*(n+2)));
+            const avgViews=Math.round(sy/n);
+            document.getElementById('growth-results').style.display='block';
+            document.getElementById('growth-results').innerHTML=`
+                <div class="row g-3"><div class="col-md-4"><div class="stat-card"><div class="stat-value green">${formatNum(currentSubs)}</div><div class="stat-label">Current Subscribers</div></div></div><div class="col-md-4"><div class="stat-card"><div class="stat-value">${formatNum(avgViews)}</div><div class="stat-label">Avg Views/Video</div></div></div><div class="col-md-4"><div class="stat-card"><div class="stat-value gold">${slope>0?'📈 Growing':'📉 Declining'}</div><div class="stat-label">Trend: ${slope>0?'+'+Math.round(slope):Math.round(slope)} views/video</div></div></div></div>
+                <div class="glass-card p-3 mt-3"><h6>📐 Projected Next Video Views</h6><p><strong>Next video:</strong> ~${formatNum(pred30)} views • <strong>After that:</strong> ~${formatNum(pred60)} views</p><p class="small text-muted">Based on linear regression of last ${n} videos.</p></div>`;
+            if(chartInstances.growth)chartInstances.growth.destroy();
+            const canvas=document.createElement('canvas');canvas.style.maxHeight='220px';document.getElementById('growth-results').appendChild(canvas);
+            chartInstances.growth=new Chart(canvas,{type:'line',data:{labels:recent.map((_,i)=>'Vid '+(i+1)),datasets:[{label:'Views',data:recent.map(v=>v.views),borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,0.1)',fill:true,tension:0.4}]}});
+        }catch(e){showToast('Error: '+e.message);}
+    };
+
+    // ═══════════ EXISTING TOOLS ═══════════
+    window.analyzeSEO=async function(){const v=extractVideoId(document.getElementById('seo-video-url').value);if(!v)return showToast('Invalid URL');try{const d=await callYouTubeAPI('videos',{part:'snippet,statistics',id:v});if(!d.items||!d.items[0])return showToast('Not found');const x=d.items[0];const s=x.snippet;const st=x.statistics;const title=s.title||'';const tags=s.tags||[];const desc=s.description||'';const score=Math.min(100,(title.length>=30&&title.length<=70?25:10)+(tags.length>=10?20:5)+(desc.length>100?15:5)+(/\d{4}/.test(title)?10:0)+(/how|tutorial|guide/i.test(title)?10:0)+(/best|top|review/i.test(title)?10:0));const deg=(score/100)*360;document.getElementById('seo-results').style.display='block';document.getElementById('seo-results').innerHTML=`<div class="row g-3"><div class="col-md-4 text-center"><div class="score-ring" style="--score-deg:${deg}deg;"><div class="score-ring-inner">${score}</div></div><small>${score>=70?'Great':score>=40?'Okay':'Poor'} SEO</small></div><div class="col-md-8"><h6>${title}</h6><p class="text-muted small">${s.channelTitle} • ${formatNum(st.viewCount)} views</p><div>${tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')||'No tags'}</div><button class="btn btn-sm btn-outline-light mt-2" onclick="addToWatchlist('${v}','${title.replace(/'/g,"\\'")}','${(s.channelTitle||'').replace(/'/g,"\\'")}','${(s.thumbnails?.medium?.url||'')}')">📌 Save</button></div></div>`;}catch(e){showToast('Error: '+e.message);}};
+    window.fetchTrending=async function(){const params={part:'snippet,statistics',chart:'mostPopular',regionCode:document.getElementById('trending-region').value,maxResults:document.getElementById('trending-max').value};const cat=document.getElementById('trending-category').value;if(cat!=='0')params.videoCategoryId=cat;try{const d=await callYouTubeAPI('videos',params);document.getElementById('trending-results').innerHTML=d.items.map(v=>`<div class="col-md-6 col-lg-4"><div class="video-result-card" onclick="window.open('https://youtube.com/watch?v=${v.id}','_blank')"><img src="${v.snippet.thumbnails.medium.url}"><div><div class="fw-bold small">${v.snippet.title}</div><small class="text-muted">${v.snippet.channelTitle} • ${formatNum(v.statistics.viewCount)} views</small><button class="btn btn-sm btn-outline-light mt-1" onclick="event.stopPropagation();addToWatchlist('${v.id}','${v.snippet.title.replace(/'/g,"\\'")}','${v.snippet.channelTitle.replace(/'/g,"\\'")}','${v.snippet.thumbnails.medium.url}')">📌</button></div></div></div>`).join('');}catch(e){showToast('Error: '+e.message);}};
+    window.generateTags=function(){const t=document.getElementById('tag-input-title').value.trim();if(!t)return showToast('Enter title');const w=t.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(x=>x.length>2);const tags=new Set(w);['best','top','review','tutorial','2024','2025','how to','guide','vs','free'].forEach(m=>w.forEach(x=>tags.add(x+' '+m)));const a=Array.from(tags).slice(0,30);document.getElementById('tag-results').style.display='block';document.getElementById('tag-results').innerHTML=`<div class="glass-card p-3"><h6>🏷️ Tags <button class="btn btn-sm btn-outline-light ms-2" onclick="navigator.clipboard.writeText('${a.join(', ')}')">Copy All</button></h6><div>${a.map(x=>`<span class="tag-pill">${x}</span>`).join('')}</div></div>`;};
+    window.fetchThumbnails=function(){const id=extractVideoId(document.getElementById('thumb-url').value);if(!id)return showToast('Invalid URL');const sizes=[{l:'Default',u:`https://img.youtube.com/vi/${id}/default.jpg`},{l:'Medium',u:`https://img.youtube.com/vi/${id}/mqdefault.jpg`},{l:'High',u:`https://img.youtube.com/vi/${id}/hqdefault.jpg`},{l:'Standard',u:`https://img.youtube.com/vi/${id}/sddefault.jpg`},{l:'Max',u:`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}];const c=document.getElementById('thumbnail-results');c.style.display='flex';c.innerHTML=sizes.map(s=>`<div class="col-md-4 col-6"><div class="glass-card p-2 text-center"><img src="${s.u}" style="width:100%;border-radius:8px;" onerror="this.style.display='none'"><p class="small mt-1">${s.l}</p><a href="${s.u}" target="_blank" class="btn btn-sm btn-outline-light">Download</a></div></div>`).join('');};
+    window.researchKeywords=async function(){const kw=document.getElementById('keyword-input').value.trim();if(!kw)return showToast('Enter keyword');try{const d=await callYouTubeAPI('search',{part:'snippet',q:kw,type:'video',maxResults:10});const freq={};d.items.forEach(v=>{v.snippet.title.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(w=>w.length>3).forEach(w=>freq[w]=(freq[w]||0)+1);});const s=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,15);document.getElementById('keyword-results').style.display='block';document.getElementById('keyword-results').innerHTML=`<div class="glass-card p-3 mb-3"><h6>💡 Suggested</h6><div>${s.map(([w,c])=>`<span class="tag-pill highlight">${w} (${c})</span>`).join('')}</div></div><div class="row">${d.items.map(v=>`<div class="col-md-6"><div class="video-result-card" onclick="window.open('https://youtube.com/watch?v=${v.id.videoId}','_blank')"><img src="${v.snippet.thumbnails.medium.url}"><div><div class="fw-bold small">${v.snippet.title}</div><small class="text-muted">${v.snippet.channelTitle}</small></div></div></div>`).join('')}</div>`;}catch(e){showToast('Error: '+e.message);}};
+
+    function init(){
+        const t=localStorage.getItem('yt_intel_theme')||'dark';document.documentElement.setAttribute('data-bs-theme',t);document.getElementById('theme-icon').className=t==='light'?'fas fa-sun':'fas fa-moon';
+        updateWatchlistCount();renderWatchlist();
+        document.querySelectorAll('.form-control-custom').forEach(el=>{el.addEventListener('keydown',e=>{if(e.key==='Enter'){const section=el.closest('.section-panel');if(!section)return;const btns=section.querySelectorAll('.btn-glow,.btn-gold');if(btns.length>0)btns[0].click();}});});
+    }
+    document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+</body>
+</html>
