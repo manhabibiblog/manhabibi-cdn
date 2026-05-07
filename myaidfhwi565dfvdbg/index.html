@@ -281,9 +281,52 @@
     function extractVideoId(u){const m=u.match(/(?:youtu\.be\/|v=|\/shorts\/|embed\/)([a-zA-Z0-9_-]{11})/);return m?m[1]:u.match(/^([a-zA-Z0-9_-]{11})$/) ? u : null;}
     function detectNiche(tags,title){const t=(title||'')+(tags||[]).join(' ').toLowerCase();if(/finance|investing|stock|money|credit|bank|loan|insurance|trading|crypto|bitcoin/i.test(t))return'finance';if(/tech|gadget|review|software|phone|laptop|pc|iphone|android|code|program/i.test(t))return'tech';if(/learn|course|tutorial|school|study|education|class|lesson|university/i.test(t))return'education';if(/game|gaming|play|minecraft|fortnite|roblox|valorant/i.test(t))return'gaming';if(/health|fitness|workout|diet|exercise|gym|weight|muscle/i.test(t))return'health';if(/makeup|beauty|fashion|skincare|style|hair|nails|outfit/i.test(t))return'beauty';if(/diy|craft|home|decor|cook|recipe|bake/i.test(t))return'diy';if(/car|auto|vehicle|bike|motor|race/i.test(t))return'auto';if(/travel|trip|destination|hotel|flight|adventure|tour/i.test(t))return'travel';return'entertainment';}
 
-    async function callYouTubeAPI(endpoint,params={}){
-        if(PHP_PROXY_URL){const u=new URL(PHP_PROXY_URL);u.searchParams.set('endpoint',endpoint);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null)u.searchParams.set(k,v);});const r=await fetch(u);if(!r.ok)throw new Error('Proxy error '+r.status);return r.json();}
-        let lastErr;for(let i=0;i<API_KEYS.length;i++){const key=API_KEYS[currentKeyIndex%API_KEYS.length];currentKeyIndex++;try{const u=new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);u.searchParams.set('key',key);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null)u.searchParams.set(k,v);});const r=await fetch(u);if(r.status===403||r.status===429){const e=await r.json().catch(()=>({}));if(e.error?.errors?.some(x=>x.reason==='quotaExceeded'||x.reason==='dailyLimitExceeded'))continue;throw new Error(e.error?.message||'Access denied');}if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}catch(e){lastErr=e;if(i===API_KEYS.length-1)throw lastErr;}}throw lastErr;}
+    async function callYouTubeAPI(endpoint, params = {}) {
+    // Clean parameters: remove undefined, null, and empty string values
+    const cleanParams = {};
+    Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined && v !== null && v !== '') {
+            cleanParams[k] = v;
+        }
+    });
+
+    // If PHP proxy is set, use it exclusively
+    if (PHP_PROXY_URL) {
+        const url = new URL(PHP_PROXY_URL);
+        url.searchParams.set('endpoint', endpoint);
+        Object.entries(cleanParams).forEach(([k, v]) => url.searchParams.set(k, v));
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('Proxy error ' + resp.status);
+        return resp.json();
+    }
+
+    // Direct API with key fallback
+    let lastError;
+    for (let i = 0; i < API_KEYS.length; i++) {
+        const key = API_KEYS[currentKeyIndex % API_KEYS.length];
+        currentKeyIndex++;
+        try {
+            const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
+            url.searchParams.set('key', key);
+            Object.entries(cleanParams).forEach(([k, v]) => url.searchParams.set(k, v));
+            const resp = await fetch(url);
+            if (resp.status === 403 || resp.status === 429) {
+                const err = await resp.json().catch(() => ({}));
+                if (err.error?.errors?.some(x => x.reason === 'quotaExceeded' || x.reason === 'dailyLimitExceeded')) {
+                    console.warn(`Key ${i+1} quota exceeded, switching...`);
+                    continue;
+                }
+                throw new Error(err.error?.message || 'Access denied');
+            }
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            return await resp.json();
+        } catch (e) {
+            lastError = e;
+            if (i === API_KEYS.length - 1) throw lastError;
+        }
+    }
+    throw lastError;
+}
     async function resolveChannel(input){let cid=input.match(/UC[a-zA-Z0-9_-]+/)?.[0]||null;if(!cid){const s=await callYouTubeAPI('search',{part:'snippet',q:input,type:'channel',maxResults:1});if(s.items&&s.items[0])cid=s.items[0].snippet.channelId;else throw new Error('Channel not found');}return cid;}
 
     function toggleTheme(){const h=document.documentElement;const c=h.getAttribute('data-bs-theme');const n=c==='light'?'dark':'light';h.setAttribute('data-bs-theme',n);localStorage.setItem('yt_intel_theme',n);document.getElementById('theme-icon').className=n==='light'?'fas fa-sun':'fas fa-moon';}
