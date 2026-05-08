@@ -1,117 +1,1480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Manhabibi CDN</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolEra - All-in-One Smart Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-  <!-- 3 sec fallback redirect -->
-  <meta http-equiv="refresh" content="3; url=https://www.manhabibi.shop">
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
 
-  <style>
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial,sans-serif;
-      background:linear-gradient(135deg,#050505,#111827);
-      color:#fff;
-      text-align:center;
-    }
-    .box{
-      width:90%;
-      max-width:420px;
-      padding:30px;
-      border-radius:22px;
-      background:rgba(255,255,255,.08);
-      box-shadow:0 20px 60px rgba(0,0,0,.45);
-    }
-    .loader{
-      width:70px;
-      height:70px;
-      border:6px solid rgba(255,255,255,.2);
-      border-top-color:#00ff88;
-      border-radius:50%;
-      margin:0 auto 20px;
-      animation:spin 1s linear infinite;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-    h1{font-size:26px;margin:10px 0}
-    p{opacity:.85}
-    .progress{
-      width:100%;
-      height:10px;
-      background:rgba(255,255,255,.15);
-      border-radius:50px;
-      overflow:hidden;
-      margin:20px 0;
-    }
-    .bar{
-      width:0%;
-      height:100%;
-      background:linear-gradient(90deg,#00ff88,#00c8ff);
-      animation:load 3s linear forwards;
-    }
-    @keyframes load{to{width:100%}}
-    .status{
-      font-size:14px;
-      margin-top:12px;
-      color:#00ff88;
-    }
-    a{
-      color:#00c8ff;
-      font-weight:bold;
-      text-decoration:none;
-    }
-  </style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .search-box input {
+            height: 60px;
+            border-radius: 30px;
+            border: none;
+            padding: 0 30px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Tools Grid Section */
+        .tools-section {
+            padding: 60px 0;
+            background: var(--light-color);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tool-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .tool-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .tool-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tool-price {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px 30px;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .tool-interface {
+            min-height: 400px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* Content Creator Enhancements */
+        .content-preview {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .copy-btn i {
+            margin-right: 5px;
+        }
+
+        .video-preview {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .video-placeholder {
+            background: #333;
+            border-radius: 10px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .video-placeholder i {
+            font-size: 4rem;
+            color: #666;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .video-controls button {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-controls button:hover {
+            background: var(--primary-color);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+
+        .toast-notification i {
+            margin-right: 10px;
+        }
+
+        /* Feature Section */
+        .feature-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            background: #f8f9fa;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-box h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 60px 0;
+            background: var(--light-color);
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-features li i {
+            color: var(--success-color);
+            margin-right: 10px;
+        }
+
+        .btn-pricing {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pricing:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-links h5 {
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .tool-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="box">
-    <div class="loader"></div>
 
-    <h1>Manhabibi CDN Running 🚀</h1>
-    <p>Redirecting to main website in <b id="count">3</b> seconds...</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-cube me-2"></i>ToolEra
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tools">Tools</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <button class="btn btn-primary ms-3" style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border: none;" data-bs-toggle="modal" data-bs-target="#signupModal">
+                    <i class="fas fa-user-plus me-2"></i>Sign Up
+                </button>
+            </div>
+        </div>
+    </nav>
 
-    <div class="progress">
-      <div class="bar"></div>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">All-in-One Smart Assistant</h1>
+            <p class="hero-subtitle">Your complete digital toolkit for content creation, learning, and productivity</p>
+            
+            <div class="search-box position-relative">
+                <input type="text" class="form-control" placeholder="Search for any tool... (e.g., AI video maker, PDF converter)">
+                <button class="btn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="mt-4">
+                <span class="badge bg-light text-dark me-2 p-2">🔥 10,000+ Users</span>
+                <span class="badge bg-light text-dark me-2 p-2">🚀 50+ AI Tools</span>
+                <span class="badge bg-light text-dark p-2">⭐ 4.9 Rating</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Our Popular Tools</h2>
+                <p>Discover our most loved and unique tools</p>
+            </div>
+            
+            <div class="row">
+                <!-- Tool 1: Universal Content Creator -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="tool-card" onclick="openTool('contentCreator')">
+                        <div class="tool-price">🔥 POPULAR</div>
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Universal Content Creator</h3>
+                        <p>AI-powered tool that creates videos, blogs, thumbnails & social posts from text</p>
+                        <span class="tool-tag">AI-Powered</span>
+                        <span class="tool-tag ms-2">Video Generator</span>
+                        <span class="tool-tag ms-2">Copy Feature</span>
+                    </div>
+                </div>
+                
+                <!-- Tool 2: Visual Idea Board -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tool-card" onclick="openTool('ideaBoard')">
+                        <div class="tool-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Visual Idea Board</h3>
+                        <p>Transform PDFs, images & links into mind maps, presentations & reports</p>
+                        <span class="tool-tag">Mind Mapping</span>
+                        <span class="tool-tag ms-2">Research</span>
+                    </div>
+                </div>
+                
+                <!-- Tool 3: Data Visualizer -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tool-card" onclick="openTool('dataVisualizer')">
+                        <div class="tool-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Real-Time Data Visualizer</h3>
+                        <p>Interactive graphs and charts with automatic fact-checking</p>
+                        <span class="tool-tag">Analytics</span>
+                        <span class="tool-tag ms-2">Fact-Check</span>
+                    </div>
+                </div>
+                
+                <!-- Tool 4: Learn to Earn -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="tool-card" onclick="openTool('learnEarn')">
+                        <div class="tool-price">⭐ UNIQUE</div>
+                        <div class="tool-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Learn to Earn</h3>
+                        <p>Convert topics into learning modules AND freelancing proposals</p>
+                        <span class="tool-tag">Education</span>
+                        <span class="tool-tag ms-2">Freelancing</span>
+                    </div>
+                </div>
+                
+                <!-- Tool 5: Voice Cloner -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="tool-card" onclick="openTool('voiceCloner')">
+                        <div class="tool-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3>Cross-Language Voice Cloner</h3>
+                        <p>Clone your voice and speak in multiple languages</p>
+                        <span class="tool-tag">Voice AI</span>
+                        <span class="tool-tag ms-2">Translation</span>
+                    </div>
+                </div>
+                
+                <!-- Tool 6: PDF Master -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="tool-card" onclick="openTool('pdfMaster')">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>PDF Master Suite</h3>
+                        <p>Merge, split, compress, convert and edit PDFs with AI</p>
+                        <span class="tool-tag">Document</span>
+                        <span class="tool-tag ms-2">Free</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="feature-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Why Choose ToolEra?</h2>
+                <p>The most comprehensive toolkit for modern creators</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>50+ AI Tools</h4>
+                        <p class="text-muted">All tools in one platform</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h4>Multi-Language</h4>
+                        <p class="text-muted">Support for 20+ languages</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Secure & Private</h4>
+                        <p class="text-muted">Your data is encrypted</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4>24/7 Support</h4>
+                        <p class="text-muted">We're here to help</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that fits your needs</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-card">
+                        <h4>Free</h4>
+                        <div class="price">$0<span>/month</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 10 basic tools</li>
+                            <li><i class="fas fa-check"></i> 5 AI generations/day</li>
+                            <li><i class="fas fa-check"></i> Basic support</li>
+                            <li><i class="fas fa-check"></i> 100 MB storage</li>
+                        </ul>
+                        <a href="#" class="btn-pricing">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-card popular">
+                        <div class="popular-badge">MOST POPULAR</div>
+                        <h4>Pro</h4>
+                        <div class="price">$19<span>/month</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> All 50+ tools</li>
+                            <li><i class="fas fa-check"></i> Unlimited AI generations</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                            <li><i class="fas fa-check"></i> 10 GB storage</li>
+                            <li><i class="fas fa-check"></i> API access</li>
+                        </ul>
+                        <a href="#" class="btn-pricing">Start Free Trial</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="pricing-card">
+                        <h4>Enterprise</h4>
+                        <div class="price">$49<span>/month</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Everything in Pro</li>
+                            <li><i class="fas fa-check"></i> Team collaboration</li>
+                            <li><i class="fas fa-check"></i> Custom AI models</li>
+                            <li><i class="fas fa-check"></i> Unlimited storage</li>
+                            <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                        </ul>
+                        <a href="#" class="btn-pricing">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-cube me-2"></i>ToolEra</h5>
+                    <p class="text-white-50">Your all-in-one smart assistant for content creation, learning, and productivity.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#tools">Tools</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-links">
+                        <h5>Tools</h5>
+                        <ul>
+                            <li><a href="#">AI Content Creator</a></li>
+                            <li><a href="#">PDF Master</a></li>
+                            <li><a href="#">Voice Cloner</a></li>
+                            <li><a href="#">Data Visualizer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-links">
+                        <h5>Contact Us</h5>
+                        <ul>
+                            <li><i class="fas fa-envelope me-2"></i> support@toolera.com</li>
+                            <li><i class="fas fa-phone me-2"></i> +1 234 567 8900</li>
+                            <li><i class="fas fa-map-marker-alt me-2"></i> 123 Tech Street, Silicon Valley, CA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 ToolEra. All rights reserved. Made with ❤️ for China and the World</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced Content Creator Modal -->
+    <div class="modal fade" id="contentCreatorModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-robot me-2"></i>Universal Content Creator
+                        <span class="badge bg-light text-dark ms-2">AI-Powered</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Left Side - Input -->
+                        <div class="col-md-6">
+                            <div class="tool-interface">
+                                <h6 class="mb-3">Create Your Content</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Enter your topic or idea</label>
+                                    <textarea class="form-control" rows="4" id="contentIdea" placeholder="e.g., Create a video about our school's sports day..."></textarea>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Content Type</label>
+                                        <select class="form-select" id="contentType" onchange="toggleVideoOptions()">
+                                            <option value="video">🎬 Video</option>
+                                            <option value="blog">📝 Blog Post</option>
+                                            <option value="thumbnail">🖼️ Thumbnail</option>
+                                            <option value="social">📱 Social Media Post</option>
+                                            <option value="script">📄 Video Script</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Language</label>
+                                        <select class="form-select" id="contentLanguage">
+                                            <option value="en">English</option>
+                                            <option value="zh">Chinese (中文)</option>
+                                            <option value="bn">Bengali (বাংলা)</option>
+                                            <option value="hi">Hindi (हिन्दी)</option>
+                                            <option value="es">Spanish</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Video Options (shown when video selected) -->
+                                <div id="videoOptions" class="mb-3" style="display: none;">
+                                    <label class="form-label">Video Style</label>
+                                    <select class="form-select mb-2" id="videoStyle">
+                                        <option>Animated Explainer</option>
+                                        <option>Live Action Style</option>
+                                        <option>Whiteboard Animation</option>
+                                        <option>Cinematic</option>
+                                        <option>Social Media Short</option>
+                                    </select>
+                                    
+                                    <label class="form-label">Video Duration</label>
+                                    <select class="form-select" id="videoDuration">
+                                        <option>15 seconds (Short)</option>
+                                        <option>30 seconds</option>
+                                        <option>60 seconds</option>
+                                        <option>2 minutes</option>
+                                        <option>5 minutes</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Tone & Style</label>
+                                    <select class="form-select" id="contentTone">
+                                        <option>Professional</option>
+                                        <option>Casual & Friendly</option>
+                                        <option>Exciting & Energetic</option>
+                                        <option>Educational</option>
+                                        <option>Inspirational</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Target Audience</label>
+                                    <select class="form-select" id="targetAudience">
+                                        <option>General Public</option>
+                                        <option>Students</option>
+                                        <option>Professionals</option>
+                                        <option>Social Media Users</option>
+                                        <option>Business Owners</option>
+                                    </select>
+                                </div>
+
+                                <button class="btn btn-primary w-100" onclick="generateContent()" style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border: none;">
+                                    <i class="fas fa-magic me-2"></i>Generate Content
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right Side - Output -->
+                        <div class="col-md-6">
+                            <div class="tool-interface">
+                                <h6 class="mb-3">Generated Content</h6>
+                                
+                                <!-- Loading Spinner -->
+                                <div id="loadingSpinner" style="display: none;" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">AI is creating your content...</p>
+                                </div>
+
+                                <!-- Content Result -->
+                                <div id="contentResult" style="display: none;">
+                                    <!-- Content will be inserted here by JavaScript -->
+                                </div>
+
+                                <!-- Empty State -->
+                                <div id="emptyState" class="text-center py-5">
+                                    <i class="fas fa-magic fa-3x mb-3" style="color: var(--primary-color);"></i>
+                                    <p>Your generated content will appear here</p>
+                                    <p class="text-muted small">Enter your idea and click Generate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="status" id="status">Checking CDN status...</div>
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Copied to clipboard!</span>
+    </div>
 
-    <p>
-      If not redirected,
-      <a href="https://www.manhabibi.shop">click here</a>
-    </p>
-  </div>
+    <!-- Idea Board Modal -->
+    <div class="modal fade" id="ideaBoardModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Visual Idea Board</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tool-interface">
+                        <div class="upload-area text-center p-5 border rounded" style="border-style: dashed !important;" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x mb-3" style="color: var(--primary-color);"></i>
+                            <h6>Drag & drop files here or click to upload</h6>
+                            <p class="text-muted">Supports PDF, Images, Videos, and Links</p>
+                            <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFiles(this.files)">
+                        </div>
+                        <div class="mt-4">
+                            <div class="row" id="uploadedFiles"></div>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-3" onclick="generateMindMap()" style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border: none;">
+                            <i class="fas fa-project-diagram me-2"></i>Generate Mind Map
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    const mainSite = "https://www.manhabibi.shop";
-    let seconds = 3;
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Join ToolEra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm" onsubmit="handleSignup(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signupName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="signupEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Country</label>
+                            <select class="form-select" id="signupCountry">
+                                <option>China</option>
+                                <option>Bangladesh</option>
+                                <option>India</option>
+                                <option>United States</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); border: none;">
+                            Create Free Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // Countdown
-    const timer = setInterval(() => {
-      seconds--;
-      document.getElementById("count").innerText = seconds;
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
 
-      if(seconds <= 0){
-        clearInterval(timer);
-        window.location.replace(mainSite);
-      }
-    }, 1000);
+        // Show/hide video options based on content type
+        function toggleVideoOptions() {
+            const contentType = document.getElementById('contentType').value;
+            const videoOptions = document.getElementById('videoOptions');
+            
+            if (contentType === 'video' || contentType === 'script') {
+                videoOptions.style.display = 'block';
+            } else {
+                videoOptions.style.display = 'none';
+            }
+        }
 
-    // CDN Status Checker
-    fetch(window.location.href, { method: "HEAD", cache: "no-store" })
-      .then(() => {
-        document.getElementById("status").innerText = "CDN Status: Online ✅";
-      })
-      .catch(() => {
-        document.getElementById("status").innerText = "CDN Status: Checking failed ⚠️";
-        document.getElementById("status").style.color = "#ffcc00";
-      });
-  </script>
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text, type) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`${type} copied to clipboard! 📋`);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast('Failed to copy. Please try again.');
+            });
+        }
+
+        // Download video
+        function downloadVideo(format) {
+            showToast(`Video is being prepared for download (${format})...`);
+            
+            // Simulate download
+            setTimeout(() => {
+                showToast(`Video downloaded successfully! 🎬`);
+            }, 2000);
+        }
+
+        // Share video
+        function shareVideo(platform) {
+            showToast(`Opening ${platform} share dialog...`);
+        }
+
+        // Generate video content
+        function generateVideoContent(idea, style, duration, language, tone, audience) {
+            const videoTemplates = {
+                'Animated Explainer': {
+                    title: `✨ ${idea} - Animated Explainer`,
+                    scenes: [
+                        { time: '0:00-0:05', text: '🎯 Introduction to the topic', animation: 'Character appears with title' },
+                        { time: '0:05-0:15', text: '📊 Key points and statistics', animation: 'Animated charts and graphs' },
+                        { time: '0:15-0:25', text: '💡 Main message or solution', animation: 'Lightbulb moment animation' },
+                        { time: '0:25-0:30', text: '🎬 Call to action', animation: 'Button click animation' }
+                    ],
+                    script: `[SCENE 1 - INTRO]\n(Upbeat music starts)\n\nNARRATOR: Welcome everyone! Today we're talking about ${idea}.\n\n[SCENE 2 - MAIN CONTENT]\n(Transition to animated graphics)\n\nNARRATOR: Let's explore the key aspects of this exciting topic...\n\n[SCENE 3 - CONCLUSION]\n(Build up to climax)\n\nNARRATOR: Ready to get started? Join us today!`
+                },
+                'Social Media Short': {
+                    title: `📱 ${idea} - Quick Tips`,
+                    scenes: [
+                        { time: '0:00-0:03', text: '👋 Hook: Grab attention', animation: 'Fast zoom in' },
+                        { time: '0:03-0:10', text: '💬 Main message: ${idea}', animation: 'Text overlays' },
+                        { time: '0:10-0:15', text: '🎯 CTA: Follow for more!', animation: 'Pop-up buttons' }
+                    ],
+                    script: `[HOOK - 0:00]\n(Viral trending music)\n\nTEXT OVERLAY: Stop scrolling! 🔥\n\n[MAIN - 0:03]\nTEXT: Here's why ${idea} matters\nVOICE OVER: Let me tell you something important...\n\n[OUTRO - 0:10]\nTEXT: Follow for daily tips! ⚡`
+                }
+            };
+
+            const template = videoTemplates[style] || videoTemplates['Animated Explainer'];
+            
+            return `
+                <div class="video-preview animate__animated animate__fadeIn">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle fa-4x" style="color: var(--primary-color); cursor: pointer;" onclick="showToast('Video playback started')"></i>
+                    </div>
+                    
+                    <div class="position-relative">
+                        <button class="copy-btn" onclick="copyToClipboard(\`${template.script}\`, 'Video script')">
+                            <i class="fas fa-copy"></i> Copy Script
+                        </button>
+                    </div>
+                    
+                    <h5 class="mt-3">${template.title}</h5>
+                    
+                    <div class="video-info mb-3">
+                        <span class="badge bg-primary me-2">${style}</span>
+                        <span class="badge bg-info me-2">${duration}</span>
+                        <span class="badge bg-success me-2">${language.toUpperCase()}</span>
+                    </div>
+                    
+                    <div class="video-scenes mb-3">
+                        <h6>🎬 Scene Breakdown:</h6>
+                        ${template.scenes.map(scene => `
+                            <div class="d-flex align-items-center mb-2 p-2 bg-dark rounded">
+                                <span class="badge bg-secondary me-2">${scene.time}</span>
+                                <span class="flex-grow-1">${scene.text}</span>
+                                <small class="text-muted">${scene.animation}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="video-script mb-3">
+                        <h6>📝 Full Script:</h6>
+                        <div class="bg-dark p-3 rounded" style="white-space: pre-line; font-family: monospace;">
+                            ${template.script}
+                        </div>
+                    </div>
+                    
+                    <div class="video-controls">
+                        <button onclick="downloadVideo('mp4')" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-download me-1"></i> MP4
+                        </button>
+                        <button onclick="downloadVideo('gif')" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-download me-1"></i> GIF
+                        </button>
+                        <button onclick="shareVideo('facebook')" class="btn btn-sm btn-outline-light">
+                            <i class="fab fa-facebook me-1"></i> Share
+                        </button>
+                        <button onclick="shareVideo('twitter')" class="btn btn-sm btn-outline-light">
+                            <i class="fab fa-twitter me-1"></i> Tweet
+                        </button>
+                        <button onclick="copyToClipboard('${template.script}', 'Script')" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-copy me-1"></i> Copy All
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate content function
+        function generateContent() {
+            const idea = document.getElementById('contentIdea').value;
+            const type = document.getElementById('contentType').value;
+            const language = document.getElementById('contentLanguage').value;
+            const tone = document.getElementById('contentTone').value;
+            const audience = document.getElementById('targetAudience').value;
+            
+            if(!idea) {
+                showToast('Please enter your idea first!');
+                return;
+            }
+            
+            // Show loading, hide empty state
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('contentResult').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'block';
+            
+            // Simulate AI generation
+            setTimeout(() => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('contentResult').style.display = 'block';
+                
+                let content = '';
+                
+                if (type === 'video') {
+                    const style = document.getElementById('videoStyle').value;
+                    const duration = document.getElementById('videoDuration').value;
+                    content = generateVideoContent(idea, style, duration, language, tone, audience);
+                } else if (type === 'script') {
+                    content = `
+                        <div class="content-preview position-relative animate__animated animate__fadeIn">
+                            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('scriptText').innerText, 'Video script')">
+                                <i class="fas fa-copy"></i> Copy Script
+                            </button>
+                            <h5>Video Script: ${idea}</h5>
+                            <div id="scriptText" style="white-space: pre-line;">
+                                [INTRO - 0:00-0:15]
+                                (Background music: Upbeat and energetic)
+                                
+                                HOST: "Welcome everyone! Today we're exploring ${idea} - a topic that's changing the game for ${audience}!"
+                                
+                                [MAIN CONTENT - 0:15-1:30]
+                                (Visuals: B-roll footage and graphics)
+                                
+                                HOST: "Let's break down the key points in a ${tone.toLowerCase()} way..."
+                                
+                                • Point 1: Why this matters
+                                • Point 2: Real-world applications  
+                                • Point 3: Expert insights
+                                
+                                [CONCLUSION - 1:30-2:00]
+                                (Music builds to climax)
+                                
+                                HOST: "Now you know about ${idea}! Ready to take action? 
+                                Don't forget to like and subscribe for more content in ${language}!"
+                                
+                                [END CARD]
+                                Text: "Subscribe for more!"
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary mt-3" onclick="downloadVideo('txt')">
+                                <i class="fas fa-download me-2"></i>Download Script
+                            </button>
+                        </div>
+                    `;
+                } else if (type === 'blog') {
+                    content = `
+                        <div class="content-preview position-relative animate__animated animate__fadeIn">
+                            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('blogText').innerText, 'Blog post')">
+                                <i class="fas fa-copy"></i> Copy Blog
+                            </button>
+                            <h5>📝 Blog Post: ${idea}</h5>
+                            <div id="blogText">
+                                <h6>Title: The Ultimate Guide to ${idea}</h6>
+                                <p><strong>Introduction:</strong> In today's fast-paced world, ${idea} has become crucial for ${audience}. Let's dive deep into why this matters and how you can leverage it.</p>
+                                
+                                <h6>Key Points:</h6>
+                                <ul>
+                                    <li><strong>Why ${idea} matters:</strong> Statistics show that 80% of ${audience} are actively seeking information about this topic.</li>
+                                    <li><strong>How to get started:</strong> Step-by-step guide for beginners with practical examples.</li>
+                                    <li><strong>Pro tips:</strong> Expert advice to master ${idea} quickly and efficiently.</li>
+                                </ul>
+                                
+                                <p><strong>Conclusion:</strong> Remember, the journey to understanding ${idea} is exciting. Start implementing these tips today and see the difference!</p>
+                                
+                                <p><em>Written in a ${tone.toLowerCase()} tone for ${audience}</em></p>
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'thumbnail') {
+                    content = `
+                        <div class="content-preview position-relative animate__animated animate__fadeIn">
+                            <button class="copy-btn" onclick="copyToClipboard('Thumbnail design copied', 'Thumbnail description')">
+                                <i class="fas fa-copy"></i> Copy Design
+                            </button>
+                            <h5>🖼️ Thumbnail Design: ${idea}</h5>
+                            <div class="text-center mb-3">
+                                <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 200px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                                    <div>
+                                        <i class="fas fa-play-circle fa-4x mb-2"></i>
+                                        <h4>${idea}</h4>
+                                        <p>Click to watch!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Design Specifications:</h6>
+                                <ul>
+                                    <li><strong>Background:</strong> Gradient (#667eea to #764ba2)</li>
+                                    <li><strong>Text:</strong> Bold white font with shadow</li>
+                                    <li><strong>Elements:</strong> Play button overlay, sparkle effects</li>
+                                    <li><strong>Dimensions:</strong> 1280x720 pixels (16:9)</li>
+                                    <li><strong>Style:</strong> ${tone} and eye-catching for ${audience}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'social') {
+                    content = `
+                        <div class="content-preview position-relative animate__animated animate__fadeIn">
+                            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('socialText').innerText, 'Social post')">
+                                <i class="fas fa-copy"></i> Copy Post
+                            </button>
+                            <h5>📱 Social Media Post</h5>
+                            <div id="socialText" style="background: #f0f2f5; padding: 20px; border-radius: 10px;">
+                                <div style="background: white; padding: 15px; border-radius: 10px;">
+                                    <p><strong>🌟 Exciting News!</strong></p>
+                                    <p>🚀 ${idea}</p>
+                                    <p>This is perfect for ${audience} who want to learn in a ${tone.toLowerCase()} way!</p>
+                                    <p>👇 Comment below and share your thoughts!</p>
+                                    <p style="color: #666;">#${idea.replace(/\s+/g, '')} #Trending #Viral #${language}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h6>Best Posting Times:</h6>
+                                <p>📅 Weekdays: 9 AM, 12 PM, 6 PM<br>📅 Weekends: 10 AM, 3 PM</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('contentResult').innerHTML = content;
+                
+            }, 2000);
+        }
+
+        // Open tool modal
+        function openTool(toolName) {
+            switch(toolName) {
+                case 'contentCreator':
+                    new bootstrap.Modal(document.getElementById('contentCreatorModal')).show();
+                    // Reset UI
+                    document.getElementById('emptyState').style.display = 'block';
+                    document.getElementById('contentResult').style.display = 'none';
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('contentIdea').value = '';
+                    break;
+                case 'ideaBoard':
+                    new bootstrap.Modal(document.getElementById('ideaBoardModal')).show();
+                    break;
+                default:
+                    showToast('Tool coming soon!');
+            }
+        }
+
+        // Handle file upload
+        function handleFiles(files) {
+            const container = document.getElementById('uploadedFiles');
+            container.innerHTML = '';
+            
+            for(let file of files) {
+                container.innerHTML += `
+                    <div class="col-md-4 mb-2">
+                        <div class="border p-2 rounded">
+                            <i class="fas fa-file me-2"></i>${file.name}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showToast(`${files.length} file(s) uploaded successfully!`);
+        }
+
+        // Generate mind map
+        function generateMindMap() {
+            showToast('AI is analyzing your files to create a mind map...');
+        }
+
+        // Handle signup
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const country = document.getElementById('signupCountry').value;
+            
+            // Store in localStorage
+            const user = {
+                name: name,
+                email: email,
+                country: country,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('toolera_user', JSON.stringify(user));
+            
+            showToast(`Welcome ${name}! Your account has been created.`);
+            
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
+        }
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('keyup', function(e) {
+            if(e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase();
+                showToast(`Searching for "${searchTerm}"...`);
+            }
+        });
+
+        // Check if user is logged in
+        window.onload = function() {
+            const savedUser = localStorage.getItem('toolera_user');
+            if(savedUser) {
+                const user = JSON.parse(savedUser);
+                console.log('Welcome back, ' + user.name);
+                
+                // Update navbar
+                const signupBtn = document.querySelector('.btn-primary.ms-3');
+                if(signupBtn) {
+                    signupBtn.innerHTML = '<i class="fas fa-user me-2"></i>' + user.name.split(' ')[0];
+                }
+            }
+        };
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
